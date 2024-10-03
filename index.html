@@ -271,14 +271,23 @@
              id: Date.now(),
              name: "Aqualizzard",
              type: "aquatique",
-             pv: "50",
+             pv: "60",
              attaque :"50"
            },
          ])
        );
-      
+
       Vue.createApp({
-	
+
+        watch: {
+          retromonsters: {
+            handler(newValue, oldValue) {
+              localStorage.setItem("retromonsters", JSON.stringify(newValue));
+            },
+            deep: true,
+          },
+        },
+
       }).mount('#app');
     </script>
   </body>
