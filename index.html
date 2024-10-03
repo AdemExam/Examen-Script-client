@@ -261,11 +261,25 @@
         <p>&copy; 2024 Monstres WTF Vintage. Tous droits réservés.</p>
       </div>
     </footer>
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script>
+
+      localStorage.setItem(
+         "retromonsters",
+         JSON.stringify([
+           {
+             id: Date.now(),
+             name: "Aqualizzard",
+             type: "aquatique",
+             pv: "50",
+             attaque :"50"
+           },
+         ])
+       );
+      
       Vue.createApp({
-        
+	
       }).mount('#app');
-     </script>
+    </script>
   </body>
 </html>
