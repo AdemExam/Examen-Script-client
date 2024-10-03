@@ -152,8 +152,16 @@
             <button
               class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               @click.prevent="addOne()"
+              v-if="!isEditing"
             >
               Ajouter Monstre
+            </button>
+            <button
+              class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              @click.prevent="updateOneById(inputretromonsters.id)"
+              v-if="isEditing"
+              >
+              Mettre à jour Monstre
             </button>
           </form>
         </div>
@@ -250,6 +258,7 @@
             <div class="text-right">
               <button
                 class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-full"
+                @click="editOneById(retromonster.id)"
               >
                 Modifier
               </button>
@@ -295,15 +304,18 @@
           return {
             retromonsters: JSON.parse(localStorage.getItem("retromonsters")) || [],
             inputretromonsters: { id: null, name: "", type: "", pv: "", attaque: "" },
+            isEditing: false,
           };
         },
 
         methods:{
+
           addOne() {
             this.inputretromonsters.id = Date.now();
             this.retromonsters.push({ ...this.inputretromonsters });
             this.inputretromonsters = { id: null, name: "", type: "", pv: "", attaque: "" };
           },
+
           deleteOneById(id) {
             const retromonster = this.retromonsters.find((item) => item.id == id);
             retromonster.isDeleted = true;
@@ -313,6 +325,23 @@
                 1
               );
             }, 350);
+          },
+
+          editOneById(id) {
+            this.isEditing = true;
+            this.inputretromonsters = {
+               ...this.retromonsters.find((item) => item.id == id),
+            };
+          },
+
+          updateOneById(id) {
+            this.retromonsters.splice(
+              this.retromonsters.findIndex((item) => item.id == id),
+              1,
+              { ...this.inputretromonsters }
+            );
+            this.inputretromonsters = { id: null, name: "", type: "", pv: "", attaque: "" };
+            this.isEditing = false;
           },
         },
 
