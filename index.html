@@ -88,12 +88,12 @@
           </div>
         </header>
         <div class="flex">
-          <button class="tab-button active">Ajouter un Monstre</button>
-          <button class="tab-button">Filtres</button>
+          <button class="tab-button" :class="{ 'active' : !isFiltersTabActive } " @click.prevent="Filtertab()" >Ajouter un Monstre</button>
+          <button class="tab-button" :class="{ 'active' : isFiltersTabActive } " @click.prevent="Filtertab()">Filtres</button>
         </div>
 
         <!-- Contenu des onglets -->
-        <div id="form" class="tab-content active">
+        <div id="form" class="tab-content" :class="{ 'active': !isFiltersTabActive }">
           <h2 class="text-3xl monster-header mb-6">Ajouter un Monstre</h2>
           <form class="grid grid-cols-1 gap-4">
             <div>
@@ -167,7 +167,7 @@
         </div>
 
         <!-- Contenu des filtres -->
-        <div id="filters" class="tab-content">
+        <div id="filters" class="tab-content" :class="{ 'active': isFiltersTabActive }">
           <h2 class="text-3xl monster-header mb-6">Filtres</h2>
           <form class="grid grid-cols-1 gap-4">
             <div>
@@ -258,13 +258,13 @@
             <div class="text-right">
               <button
                 class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-full"
-                @click="editOneById(retromonster.id)"
+                @click.prevent="editOneById(retromonster.id)"
               >
                 Modifier
               </button>
               <button
                 class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded-full"
-                @click="deleteOneById(retromonster.id)"
+                @click.prevent="deleteOneById(retromonster.id)"
               >
                 Supprimer
               </button>
@@ -305,6 +305,7 @@
             retromonsters: JSON.parse(localStorage.getItem("retromonsters")) || [],
             inputretromonsters: { id: null, name: "", type: "", pv: "", attaque: "" },
             isEditing: false,
+            isFiltersTabActive: false,
           };
         },
 
@@ -351,7 +352,13 @@
             this.inputretromonsters = { id: null, name: "", type: "", pv: "", attaque: "" };
             this.isEditing = false;
           },
+
+          Filtertab() {
+            this.isFiltersTabActive = !this.isFiltersTabActive;
+          },
         },
+
+        
 
         watch: {
           retromonsters: {
